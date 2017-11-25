@@ -1,5 +1,6 @@
 package com.example.cloudfirestore;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,7 +25,6 @@ public class Events extends AppCompatActivity {
         MyAdapter adapter = new MyAdapter(this, DataClass.getObjectList());
         recyclerView.setAdapter(adapter);
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addEventButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,5 +34,12 @@ public class Events extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    public void Rheck(View view)
+    {
+        Intent intent = new Intent(this, LogIn.class);
+        startActivity(intent);
+        finish();
     }
 }

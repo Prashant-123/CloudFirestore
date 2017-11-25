@@ -32,9 +32,9 @@ public class DataClass {
         {
             DataClass data = new DataClass();
             data.setTitle("List-Item" + i);
-            Log.i("tag", "Title: " + data.getTitle());
             data.setTime("Time: " + i);
             data.setOrganiser("Organiser- " + i);
+            dataList.add(data);
         }
         return dataList;
     }

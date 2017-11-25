@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import java.util.List;
 
 /**
@@ -35,11 +34,10 @@ import java.util.List;
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-            DataClass current = objectList.get(position);
-            holder.setData(current, position);
+        DataClass current = objectList.get(position);
+        holder.setData(current, position);
 
     }
-
 
     @Override
     public int getItemCount() {
@@ -48,8 +46,8 @@ import java.util.List;
 
     class MyViewHolder extends RecyclerView.ViewHolder{
 
-             TextView title, date, organiser;
-            DataClass currentObject;
+        TextView title, date, organiser;
+        DataClass currentObject;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
