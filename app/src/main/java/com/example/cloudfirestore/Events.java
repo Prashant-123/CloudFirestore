@@ -35,8 +35,7 @@ public class Events extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference databaseRef;
 
-    int count;
-    int i=1;
+    int count, i=1;
     public ArrayList<DataClass> data = new ArrayList<>();
 
     @Override
@@ -47,13 +46,11 @@ public class Events extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
         final MyAdapter adapter = new MyAdapter(this, data);
         recyclerView.setAdapter(adapter);
 
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference();
-
         databaseRef.child("events").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -128,7 +125,6 @@ public class Events extends AppCompatActivity {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             if (documentSnapshot.exists()) {
-                                //Data myData = documentSnapshot.toObject(Data.class);
                                 String u = documentSnapshot.getString(USERNAME);
                                 String p = documentSnapshot.getString(PASSWORD);
                                 if (username.getText().toString().equals(u)&& password.getText().toString().equals(p))

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -19,20 +18,16 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 
 public class CreateEvent extends AppCompatActivity {
 
     private FirebaseDatabase database;
     private DatabaseReference databaseRef;
-    Button btn;
     String dateStr,timeStr, et4;
     final Calendar cal = Calendar.getInstance();
     final Calendar time = Calendar.getInstance();
-    DateFormat df = DateFormat.getDateInstance();
     int year_x, month_x, date_x;
-    static final int DIALOG_ID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +44,14 @@ public class CreateEvent extends AppCompatActivity {
         findViewById(R.id.newTime).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(DIALOG_ID);
+                showDialog(0);
             }
         });
     }
     @Override
     protected Dialog onCreateDialog(int id)
     {
-        if (id==DIALOG_ID)
+        if (id==0)
             return new DatePickerDialog(this, dpickerListener, year_x, month_x, date_x);
         return null;
     }
