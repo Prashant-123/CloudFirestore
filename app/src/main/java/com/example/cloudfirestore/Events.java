@@ -9,14 +9,21 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,6 +34,17 @@ public class Events extends AppCompatActivity {
 
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
+    private static final String TITLE = "title";
+    private static final String ORGANISER = "organiser";
+    private static final String VENUE = "venue";
+    private static final String DATE = "date";
+
+    private FirebaseDatabase database;
+    private DatabaseReference databaseRef;
+
+    TextView tv1, tv2, tv3, tv4;
+    int count;
+    int i=1;
     public ArrayList<DataClass> data = new ArrayList<>();
 
     @Override
@@ -38,8 +56,43 @@ public class Events extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        MyAdapter adapter = new MyAdapter(this, DataClass.getObjectList());
+        final MyAdapter adapter = new MyAdapter(this, data);
         recyclerView.setAdapter(adapter);
+//        DataClass newData = new DataClass(null, null, null, null);
+//        data.add(newData);
+
+        database = FirebaseDatabase.getInstance();
+        databaseRef = database.getReference();
+
+        databaseRef.child("events").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                i++;
+                count = (int) dataSnapshot.getChildrenCount();
+                DataClass newData = dataSnapshot.getValue(DataClass.class);
+                data.add(newData);
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -106,6 +159,8 @@ public class Events extends AppCompatActivity {
     public void change(View view)
     {
         Intent intent = new Intent(this, CreateEvent.class);
+        intent.putExtra("COUNT", i);
+        Log.i("tag", "Count-Sender: "  + i);
         startActivity(intent);
     }
 

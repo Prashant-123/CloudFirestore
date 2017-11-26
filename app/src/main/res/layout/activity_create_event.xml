@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:id="@+id/newOrganiser"
-        android:hint="Enter Title"
+        android:hint="Enter Organiser"
         android:layout_gravity="center"/>
 
     <EditText
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:id="@+id/newVenue"
-        android:hint="Enter Title"
+        android:hint="Enter Venue"
         android:layout_gravity="center"/>
 
     <EditText
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:id="@+id/newTime"
-        android:hint="Enter Title"
+        android:hint="Enter Date"
         android:layout_gravity="center"/>
 
     <Button
