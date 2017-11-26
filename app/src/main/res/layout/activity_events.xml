@@ -10,9 +10,7 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rView"
-        android:onClick="Rheck">
-
+        android:id="@+id/rView">
     </android.support.v7.widget.RecyclerView>
 
 
@@ -21,7 +19,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/addEventButton"
         app:fabSize="normal"
+        android:onClick="change"
+        android:src="@drawable/edit"
         android:layout_gravity="bottom|end"
-        android:layout_margin="35dp"/>
+        android:layout_margin="30dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -46,7 +46,7 @@ import java.util.List;
 
     class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView title, date, organiser;
+        TextView title, date, organiser, venue;
         DataClass currentObject;
 
             public MyViewHolder(View itemView) {
@@ -54,12 +54,15 @@ import java.util.List;
                 this.title = (TextView)itemView.findViewById(R.id.title);
                 this.date = (TextView)itemView.findViewById(R.id.date);
                 this.organiser = (TextView)itemView.findViewById(R.id.organiser);
+                this.venue = (TextView)itemView.findViewById(R.id.venue);
+
             }
 
         public void setData(DataClass currentObject, int position) {
             this.title.setText(currentObject.getTitle());
             this.date.setText(currentObject.getTime());
             this.organiser.setText(currentObject.getOrganiser());
+            this.venue.setText(currentObject.getVenue());
             this.currentObject = currentObject;
         }
     }
