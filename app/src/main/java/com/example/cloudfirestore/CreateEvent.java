@@ -1,12 +1,17 @@
 package com.example.cloudfirestore;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -14,38 +19,84 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+
 public class CreateEvent extends AppCompatActivity {
 
-    private static final String TITLE = "title";
-    private static final String ORGANISER = "organiser";
-    private static final String VENUE = "venue";
-    private static final String DATE = "date";
     private FirebaseDatabase database;
     private DatabaseReference databaseRef;
+    Button btn;
+    String dateStr,timeStr, et4;
+    final Calendar cal = Calendar.getInstance();
+    final Calendar time = Calendar.getInstance();
+    DateFormat df = DateFormat.getDateInstance();
+    int year_x, month_x, date_x;
+    static final int DIALOG_ID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
+        year_x = cal.get(Calendar.YEAR);
+        month_x = cal.get(Calendar.MONTH);
+        date_x = cal.get(Calendar.DAY_OF_MONTH);
+        showDialoguOnButtonClick();
     }
+    public void showDialoguOnButtonClick()
+    {
+        findViewById(R.id.newTime).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(DIALOG_ID);
+            }
+        });
+    }
+    @Override
+    protected Dialog onCreateDialog(int id)
+    {
+        if (id==DIALOG_ID)
+            return new DatePickerDialog(this, dpickerListener, year_x, month_x, date_x);
+        return null;
+    }
+
+    private DatePickerDialog.OnDateSetListener dpickerListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            date_x = dayOfMonth; month_x = month; year_x = year;
+             dateStr = " "+date_x+" "+ theMonth(month_x)+ " "+ year_x;
+             updateTime();
+        }
+    };
+
+    private void updateTime()
+    { new TimePickerDialog(this, t, time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), false).show(); }
+
+    TimePickerDialog.OnTimeSetListener t = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            time.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            time.set(Calendar.MINUTE, minute);
+            timeStr = ""+ hourOfDay+ ":"+ minute+ ", ";
+
+            et4= timeStr + dateStr;
+        }
+    };
 
     public void save(View view)
     {
         EditText et1 = (EditText) findViewById(R.id.newTitle);
         EditText et2 = (EditText) findViewById(R.id.newOrganiser);
         EditText et3 = (EditText) findViewById(R.id.newVenue);
-        EditText et4 = (EditText) findViewById(R.id.newTime);
 
-        DataClass data = new DataClass(et1.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString());
+        DataClass data = new DataClass(et1.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4);
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference();
 
         Intent intent = getIntent();
         int count = intent.getIntExtra("COUNT", 0);
-        Log.i("tag", "Count-Reciever: " + count);
         String ctr = String.valueOf(count);
-        Log.i("tag", "CTR: "+ ctr.toString());
-
 
         databaseRef.child("events").child(ctr).setValue(data).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -61,15 +112,11 @@ public class CreateEvent extends AppCompatActivity {
                 Toast.makeText(CreateEvent.this, "Internal Error Occurred. \n Try Again", Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
-//        DocumentReference mDocRef = FirebaseFirestore.getInstance().document("events/society");
-//
-//        Map<String, Object> dataToSave = new HashMap<String, Object>();
-//        dataToSave.put(TITLE, et1.getText().toString());
-//        dataToSave.put(ORGANISER, et2.getText().toString());
-//        dataToSave.put(VENUE, et3.getText().toString());
-//        dataToSave.put(DATE, et4.getText().toString());
-//        mDocRef.set(dataToSave);
+    public static String theMonth(int month){
+        String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        return monthNames[month];
     }
 
 }

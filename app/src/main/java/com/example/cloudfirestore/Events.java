@@ -9,13 +9,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,15 +32,9 @@ public class Events extends AppCompatActivity {
 
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
-    private static final String TITLE = "title";
-    private static final String ORGANISER = "organiser";
-    private static final String VENUE = "venue";
-    private static final String DATE = "date";
-
     private FirebaseDatabase database;
     private DatabaseReference databaseRef;
 
-    TextView tv1, tv2, tv3, tv4;
     int count;
     int i=1;
     public ArrayList<DataClass> data = new ArrayList<>();
@@ -58,8 +50,6 @@ public class Events extends AppCompatActivity {
 
         final MyAdapter adapter = new MyAdapter(this, data);
         recyclerView.setAdapter(adapter);
-//        DataClass newData = new DataClass(null, null, null, null);
-//        data.add(newData);
 
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference();
@@ -118,7 +108,6 @@ public class Events extends AppCompatActivity {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Sign-In");
         alert.setView(alertLayout);
-        // disallow cancel of AlertDialog on click of back button and outside touch
         alert.setCancelable(false);
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 
@@ -144,8 +133,11 @@ public class Events extends AppCompatActivity {
                                 String p = documentSnapshot.getString(PASSWORD);
                                 if (username.getText().toString().equals(u)&& password.getText().toString().equals(p))
                                 {
-                                    //fetch();
+                                    Toast.makeText(Events.this, "Authentication Successfull", Toast.LENGTH_SHORT).show();
+                                    createEvent();
                                 }
+                                else
+                                    Toast.makeText(Events.this, "You Lost it :)", Toast.LENGTH_SHORT).show();
 
                             }
                         }
@@ -156,11 +148,10 @@ public class Events extends AppCompatActivity {
         dialog.show();
     }
 
-    public void change(View view)
+    public void createEvent()
     {
         Intent intent = new Intent(this, CreateEvent.class);
         intent.putExtra("COUNT", i);
-        Log.i("tag", "Count-Sender: "  + i);
         startActivity(intent);
     }
 
