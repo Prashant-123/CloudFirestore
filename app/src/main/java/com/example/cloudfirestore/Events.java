@@ -46,7 +46,7 @@ public class Events extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        final MyAdapter adapter = new MyAdapter(this, data);
+        final EventsAdapter adapter = new EventsAdapter(this, data);
         recyclerView.setAdapter(adapter);
 
         database = FirebaseDatabase.getInstance();

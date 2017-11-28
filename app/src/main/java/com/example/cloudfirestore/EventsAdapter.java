@@ -12,12 +12,12 @@ import java.util.List;
  * Created by Prashant on 25-11-2017.
  */
 
-    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
+    public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHolder>{
 
         private List<DataClass> objectList;
         private LayoutInflater inflater;
 
-        public MyAdapter(Context context, List<DataClass> objectList)
+        public EventsAdapter(Context context, List<DataClass> objectList)
         {
             inflater = LayoutInflater.from(context);
             this.objectList = objectList;

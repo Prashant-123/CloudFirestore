@@ -62,7 +62,6 @@ public class CreateEvent extends AppCompatActivity {
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
             date_x = dayOfMonth; month_x = month; year_x = year;
              dateStr = " "+date_x+" "+ theMonth(month_x)+ " "+ year_x;
-             Log.i("tag", "" + dateStr);
              updateTime();
         }
     };
@@ -76,10 +75,7 @@ public class CreateEvent extends AppCompatActivity {
             time.set(Calendar.HOUR_OF_DAY, hourOfDay);
             time.set(Calendar.MINUTE, minute);
             int hour = hourOfDay % 12;
-            timeStr = String.format("%02d:%02d%s", hour == 0 ? 12 : hour,
-                    minute, hourOfDay < 12 ? "am, " : "pm, ");
-            Log.i("tag", "" + timeStr);
-
+            timeStr = String.format("%02d:%02d%s", hour == 0 ? 12 : hour, minute, hourOfDay < 12 ? "am, " : "pm, ");
             et4= timeStr + dateStr;
         }
     };
@@ -97,6 +93,7 @@ public class CreateEvent extends AppCompatActivity {
         Intent intent = getIntent();
         int count = intent.getIntExtra("COUNT", 0);
         String ctr = String.valueOf(count);
+        Log.i("tag", "count:  "+count);
 
         databaseRef.child("events").child(ctr).setValue(data).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
