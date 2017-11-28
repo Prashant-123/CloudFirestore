@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -61,6 +62,7 @@ public class CreateEvent extends AppCompatActivity {
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
             date_x = dayOfMonth; month_x = month; year_x = year;
              dateStr = " "+date_x+" "+ theMonth(month_x)+ " "+ year_x;
+             Log.i("tag", "" + dateStr);
              updateTime();
         }
     };
@@ -73,7 +75,10 @@ public class CreateEvent extends AppCompatActivity {
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             time.set(Calendar.HOUR_OF_DAY, hourOfDay);
             time.set(Calendar.MINUTE, minute);
-            timeStr = ""+ hourOfDay+ ":"+ minute+ ", ";
+            int hour = hourOfDay % 12;
+            timeStr = String.format("%02d:%02d%s", hour == 0 ? 12 : hour,
+                    minute, hourOfDay < 12 ? "am, " : "pm, ");
+            Log.i("tag", "" + timeStr);
 
             et4= timeStr + dateStr;
         }

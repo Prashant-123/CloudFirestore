@@ -134,7 +134,6 @@ public class Events extends AppCompatActivity {
                                 }
                                 else
                                     Toast.makeText(Events.this, "You Lost it :)", Toast.LENGTH_SHORT).show();
-
                             }
                         }
                     });
