@@ -51,7 +51,7 @@ public class Events extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference();
-        databaseRef.child("events").addChildEventListener(new ChildEventListener() {
+        databaseRef.child("events").orderByChild("sot").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 i++;

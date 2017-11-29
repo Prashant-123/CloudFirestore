@@ -6,14 +6,24 @@ package com.example.cloudfirestore;
 
 public class DataClass {
 
-    private String title, organiser, venue, time;
+    private String title, organiser, venue, time, sot;
     public DataClass() {}
 
-    public DataClass(String title, String organiser, String venue, String time) {
+    public String getSot() {
+        return sot;
+    }
+
+    public void setSot(String sot) {
+        this.sot = sot;
+    }
+
+    public DataClass(String title, String organiser, String venue, String time, String sot) {
         this.title = title;
         this.organiser = organiser;
         this.venue = venue;
         this.time = time;
+        this.sot = sot;
+
     }
 
     public String getTitle() {

@@ -30,6 +30,8 @@ public class CreateEvent extends AppCompatActivity {
     final Calendar time = Calendar.getInstance();
     int year_x, month_x, date_x;
 
+    String sot;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +63,12 @@ public class CreateEvent extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
             date_x = dayOfMonth; month_x = month; year_x = year;
-             dateStr = " "+date_x+" "+ theMonth(month_x)+ " "+ year_x;
+             dateStr = " "+date_x+" "+ theMonth(month_x)+ " "+ year_x + ", ";
+            int newMonth = month+1;
+
+            sot = year +""+ newMonth + "-" + dayOfMonth;
+
+            Log.i("tag", sot);
              updateTime();
         }
     };
@@ -75,8 +82,8 @@ public class CreateEvent extends AppCompatActivity {
             time.set(Calendar.HOUR_OF_DAY, hourOfDay);
             time.set(Calendar.MINUTE, minute);
             int hour = hourOfDay % 12;
-            timeStr = String.format("%02d:%02d%s", hour == 0 ? 12 : hour, minute, hourOfDay < 12 ? "am, " : "pm, ");
-            et4= timeStr + dateStr;
+            timeStr = String.format("%02d:%02d%s", hour == 0 ? 12 : hour, minute, hourOfDay < 12 ? "am" : "pm");
+            et4= dateStr + timeStr;
         }
     };
 
@@ -86,7 +93,7 @@ public class CreateEvent extends AppCompatActivity {
         EditText et2 = (EditText) findViewById(R.id.newOrganiser);
         EditText et3 = (EditText) findViewById(R.id.newVenue);
 
-        DataClass data = new DataClass(et1.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4);
+        DataClass data = new DataClass(et1.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4, sot);
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference();
 
